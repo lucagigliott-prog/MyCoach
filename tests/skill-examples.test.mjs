@@ -189,7 +189,7 @@ test('every skill that adds exercises writes them through stats.mjs exercise', (
   assert.match(readFileSync(join(SKILLS_DIR, 'exercise', 'SKILL.md'), 'utf8'), /stats\.mjs" exercise alias/);
 });
 
-// /coach:gym edits an inventory without a second init.
+// /mycoach:gym edits an inventory without a second init.
 // What makes it more than a text edit is the check afterwards: the program
 // is read against the new equipment the same way the planner reads it.
 test('gym checks every affected program against the new inventory through catalog', () => {
@@ -200,7 +200,7 @@ test('gym checks every affected program against the new inventory through catalo
 
 test('init no longer claims to be the only skill that writes a gym file', () => {
   const text = readFileSync(join(SKILLS_DIR, 'init', 'SKILL.md'), 'utf8');
-  assert.match(text, /\/coach:gym/);
+  assert.match(text, /\/mycoach:gym/);
 });
 
 // A photo of a notebook page is transcribed and shown

@@ -1,17 +1,26 @@
-# claude-gym-coach
+# MyCoach
 
-[![tests](https://github.com/nikitavovch/claude-gym-coach/actions/workflows/test.yml/badge.svg)](https://github.com/nikitavovch/claude-gym-coach/actions/workflows/test.yml)
+[![tests](https://github.com/lucagigliott-prog/MyCoach/actions/workflows/test.yml/badge.svg)](https://github.com/lucagigliott-prog/MyCoach/actions/workflows/test.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![version](https://img.shields.io/badge/version-1.0.0-informational.svg)](CHANGELOG.md)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)](https://code.claude.com/docs/en/plugins)
 ![English | Русский](https://img.shields.io/badge/lang-EN%20%7C%20RU-lightgrey.svg)
 
-**A personal strength coach for [Claude Code](https://code.claude.com).**
-It designs your programme, writes each session from your own history and
-your gym's real plates, logs what you dictate after training, reviews
-every block, and keeps all of it as plain markdown files in a folder you
+**A personal multi-sport training coach for [Claude Code](https://code.claude.com).**
+It assesses you, designs your plan, writes each session from your own
+history, logs what you dictate after training, follows you week by week and
+re-plans at every reassessment — all as plain markdown files in a folder you
 own. Drive it from the terminal — or from your phone, walking out of the
 gym.
+
+> **Status — work in progress.** MyCoach is a fork of
+> [claude-gym-coach](https://github.com/nikitavovch/claude-gym-coach) by
+> Nikita Vovchenko (MIT), being widened from strength training to several
+> sports. Today it plans and logs lifting in full and logs cardio; BJJ
+> sessions, a cross-sport weekly load balance, a PR-readiness check and a
+> full reassessment loop are on the roadmap below. The plugin name is
+> `mycoach`, so commands are `/mycoach:plan`, `/mycoach:log` and so on; the
+> data folder format (`.coach.json`, `athletes/…`) is unchanged for now.
 
 <p align="center">
   <img src="media/demo.gif" alt="claude-gym-coach demo: the athlete tells the coach who they are and gets a programme, imports an old notebook, gets today's session planned from it with the plates for each side, and reports the workout from a phone for the coach to log" width="860">
@@ -22,14 +31,14 @@ gym.
 An exchange looks like this:
 
 ```
-you:   /coach:plan
+you:   /mycoach:plan
 coach: Danila, Lower A, 2026-09-23 — week 6 of 8.
        Back Squat      3x5 @ 105 kg   (RPE 8; last time 102.5 x 5 @ 8)
        Romanian DL     3x8 @ 82.5 kg  (RPE 7)
        Leg Curl        3x12 @ 40 kg
        Squat moves up 2.5 kg: all three sets landed at RPE 8 last week.
 
-you:   /coach:log squat 105 for 5 three times, RPE 8, 8, 8.5. RDL 82.5 for 8,
+you:   /mycoach:log squat 105 for 5 three times, RPE 8, 8, 8.5. RDL 82.5 for 8,
        three sets, RPE 7. Leg curls 40 for 12, three sets. Weighed 82.4.
 coach: Danila, Lower A, 2026-09-23 — logged:
          Back Squat: 105x5 @8, 105x5 @8, 105x5 @8.5
@@ -112,7 +121,7 @@ coach: Danila, Lower A, 2026-09-23 — logged:
   to check yourself, not a verdict.
 - **Change your programme behind your back.** Small adjustments come with
   a reason and a changelog line; structural ones only through
-  `/coach:review`, with your yes on the concrete edit.
+  `/mycoach:review`, with your yes on the concrete edit.
 - **Send your data anywhere.** Everything stays in your folder.
 
 <p align="center">
@@ -124,8 +133,8 @@ coach: Danila, Lower A, 2026-09-23 — logged:
 You need [Claude Code](https://code.claude.com) and Node 20 or newer.
 
 ```
-claude plugin marketplace add nikitavovch/claude-gym-coach
-claude plugin install coach@claude-gym-coach
+claude plugin marketplace add lucagigliott-prog/MyCoach
+claude plugin install mycoach@mycoach
 ```
 
 Make a folder for your training data — it is separate from the plugin,
@@ -138,14 +147,14 @@ mkdir ~/gym && cd ~/gym && claude
 Then:
 
 ```
-/coach:init
+/mycoach:init
 ```
 
 The setup is a conversation: about ten questions, a choice of
 methodology, your gym's equipment. It ends with a profile and a programme
 in your folder, and it offers to start a local git history of the folder.
-From then on the cycle is two commands: `/coach:plan` before the gym,
-`/coach:log` after it.
+From then on the cycle is two commands: `/mycoach:plan` before the gym,
+`/mycoach:log` after it.
 
 To update or remove the plugin, use `/plugin` inside Claude Code.
 
@@ -153,27 +162,27 @@ To update or remove the plugin, use `/plugin` inside Claude Code.
 
 | Command | What it does | You might say |
 |---|---|---|
-| `/coach:init` | First setup, or a new athlete in the same folder | "set me up", "add my partner" |
-| `/coach:plan` | Writes the next session from the programme and your history | "what am I doing today" |
-| `/coach:log` | Records a session from free dictation, reports deviations and records | "bench 80 for 5, three sets…" |
-| `/coach:review` | Analyses a period and proposes programme changes, one confirmation each | "review my last 4 weeks" |
-| `/coach:phase` | Cut, bulk or maintain — and whether bodyweight follows the target | "I'm starting a cut" |
-| `/coach:import` | Turns a paper notebook — text or photos — into log files | "import my old notebook" |
-| `/coach:exercise` | Teaches the coach an exercise or another name for one | "I call it the Meadows row" |
-| `/coach:gym` | Updates your equipment and checks the programme against it | "we got dumbbells up to 40" |
+| `/mycoach:init` | First setup, or a new athlete in the same folder | "set me up", "add my partner" |
+| `/mycoach:plan` | Writes the next session from the programme and your history | "what am I doing today" |
+| `/mycoach:log` | Records a session from free dictation, reports deviations and records | "bench 80 for 5, three sets…" |
+| `/mycoach:review` | Analyses a period and proposes programme changes, one confirmation each | "review my last 4 weeks" |
+| `/mycoach:phase` | Cut, bulk or maintain — and whether bodyweight follows the target | "I'm starting a cut" |
+| `/mycoach:import` | Turns a paper notebook — text or photos — into log files | "import my old notebook" |
+| `/mycoach:exercise` | Teaches the coach an exercise or another name for one | "I call it the Meadows row" |
+| `/mycoach:gym` | Updates your equipment and checks the programme against it | "we got dumbbells up to 40" |
 
 You rarely need the slash form: ask in plain words and the matching
 command runs. Every command takes an athlete's name when two people share
-a folder — `/coach:plan vera`.
+a folder — `/mycoach:plan vera`.
 
 ## A week with the coach
 
-**Before training** — `/coach:plan` writes the day's file,
+**Before training** — `/mycoach:plan` writes the day's file,
 `athletes/<you>/log/<date>.md`, with the plan in it. It follows the
 programme's rotation, progresses from what you actually did, and rounds
 every load to your plates.
 
-**After training** — `/coach:log` and just talk. It turns the dictation
+**After training** — `/mycoach:log` and just talk. It turns the dictation
 into set lines, asks once about anything it can't resolve (an unknown
 exercise, a main lift without an RPE), says where you deviated from the
 plan and announces a record only when there was a previous one to beat.
@@ -185,7 +194,7 @@ answers with cues; ask about nutrition or a supplement and the nutrition
 specialist answers within its boundaries. Mention pain and the coach
 follows its pain rules, not your programme.
 
-**End of a block** — `/coach:review` reads the period against the
+**End of a block** — `/mycoach:review` reads the period against the
 programme: records, trends per main lift, stalls, volume, attendance,
 misses, cardio interference, fatigue signals listed as what fired (never a
 made-up score), bodyweight against your phase. It asks whether your
@@ -228,9 +237,9 @@ on the way to the gym, dictate the log on the way out.
    so nothing is lost, and each command stays fast and cheap.
 
 **What works from the phone** — everything the coach does: every
-`/coach:*` command, the specialists, the session-start context, writing
+`/mycoach:*` command, the specialists, the session-start context, writing
 your files, its questions and permission prompts. You can send photos
-straight from the phone's camera, which makes `/coach:import` of a
+straight from the phone's camera, which makes `/mycoach:import` of a
 notebook page a two-tap job, and your phone keyboard's voice input turns
 logging a session into talking.
 
@@ -315,13 +324,13 @@ node "$COACH_PLUGIN_ROOT/scripts/stats.mjs" export sets --since 3m > sets.csv
 **Privacy** — the plugin sends nothing anywhere; your files stay in your
 folder, and only what Claude Code itself does as part of a session leaves
 it. Keeping the folder in a *private* git repository gives you history
-and a backup — `/coach:init` offers to start one locally and never adds a
+and a backup — `/mycoach:init` offers to start one locally and never adds a
 remote.
 
 ## How it works
 
 <p align="center">
-  <img src="media/pipeline.gif" alt="The coach's pipeline as a graph: for /coach:plan the session reads .coach.json, program.md, profile.md and gym.md, runs stats.mjs over the log for today's date, records, stalls and phase, and hands everything to the planner agent, which writes the day's file; the loads are checked against the plates. For /coach:log the dictated report goes to the script as JSON through a quoted heredoc, the log is written and validated, the programme's rule sets the next weight, and the day joins the history" width="860">
+  <img src="media/pipeline.gif" alt="The coach's pipeline as a graph: for /mycoach:plan the session reads .coach.json, program.md, profile.md and gym.md, runs stats.mjs over the log for today's date, records, stalls and phase, and hands everything to the planner agent, which writes the day's file; the loads are checked against the plates. For /mycoach:log the dictated report goes to the script as JSON through a quoted heredoc, the log is written and validated, the programme's rule sets the next weight, and the day joins the history" width="860">
 </p>
 
 <p align="center">
@@ -364,20 +373,20 @@ roughly, in words of prompt:
 
 | Command | Skill | Specialist it may call | Specialist's model |
 |---|---|---|---|
-| `/coach:plan` | 2 800 | `planner` 2 600 | sonnet |
-| `/coach:log` | 3 400 | — | — |
-| `/coach:phase` | 2 300 | — | — |
-| `/coach:import` | 4 100 | — | — |
-| `/coach:exercise` | 1 200 | — | — |
-| `/coach:gym` | 1 000 | — | — |
-| `/coach:review` | 3 500 | `analyst` 3 000, plus a programme designer up to 4 700 for a structural change | **opus** |
-| `/coach:init` | 2 700 | a programme designer up to 4 700 | **opus** |
+| `/mycoach:plan` | 2 800 | `planner` 2 600 | sonnet |
+| `/mycoach:log` | 3 400 | — | — |
+| `/mycoach:phase` | 2 300 | — | — |
+| `/mycoach:import` | 4 100 | — | — |
+| `/mycoach:exercise` | 1 200 | — | — |
+| `/mycoach:gym` | 1 000 | — | — |
+| `/mycoach:review` | 3 500 | `analyst` 3 000, plus a programme designer up to 4 700 for a structural change | **opus** |
+| `/mycoach:init` | 2 700 | a programme designer up to 4 700 | **opus** |
 
 A skill runs on your session's model; the specialists carry their own.
 If your plan or provider has no Opus, set `model: inherit` in
 `agents/analyst.md` and the four `agents/program-*.md` of your install.
-Designing a block is the part worth paying opus for, so `/coach:log` after
-a workout costs what your session costs and `/coach:review` at the end of
+Designing a block is the part worth paying opus for, so `/mycoach:log` after
+a workout costs what your session costs and `/mycoach:review` at the end of
 a block pays for opus on top. The ~9 900-word exercise database is never
 read whole: specialists ask `stats.mjs catalog` for the columns they need,
 filtered to your gym — about 3 800 words, closer to 2 200 for a home gym.
@@ -401,6 +410,20 @@ filtered to your gym — about 3 800 words, closer to 2 200 for a home gym.
 
 ## Roadmap
 
+MyCoach, in order:
+
+- **Multi-sport intake:** sports, weekly availability and priorities; no
+  barbell-only assumptions.
+- **BJJ and cardio modules:** session logging (drilling, rolling rounds,
+  intensity, injuries), session RPE for every sport, and designers for each.
+- **Cross-sport weekly load balance** and interference checks.
+- **Planning a whole week** across sports, with a PR-readiness flag.
+- **Reassessment:** periodic re-intake that reruns the plan and proposes a
+  new block, one confirmation per change.
+- **Dashboard export** built on the existing CSV and JSON export.
+
+Inherited from the upstream roadmap:
+
 - **Other agent CLIs.** The plugin will be ported beyond Claude Code — to
   OpenAI's Codex CLI, OpenCode, Gemini CLI, Cursor's CLI and others. Most
   of it already travels: `stats.mjs` is plain Node, the skills are
@@ -412,7 +435,7 @@ filtered to your gym — about 3 800 words, closer to 2 200 for a home gym.
 - Meet peaking and attempt selection for powerlifters.
 
 Ideas and votes are welcome in
-[Discussions](https://github.com/nikitavovch/claude-gym-coach/discussions).
+[Discussions](https://github.com/lucagigliott-prog/MyCoach/discussions).
 
 ## Contributing
 
@@ -427,4 +450,6 @@ node --test                              # the whole suite, ~3 s, any OS
 node scripts/stats.mjs help              # the CLI the skills drive
 ```
 
-Released under the [MIT licence](LICENSE).
+Released under the [MIT licence](LICENSE). MyCoach is based on
+[claude-gym-coach](https://github.com/nikitavovch/claude-gym-coach) by Nikita
+Vovchenko; his copyright notice stays in `LICENSE`.

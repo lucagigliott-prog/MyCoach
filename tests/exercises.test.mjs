@@ -73,7 +73,7 @@ test('the colloquial names of the paused main lifts resolve', () => {
   assert.equal(resolveExercise('паузный жим', db)?.canonical, 'Жим штанги лёжа с паузой');
 });
 
-// /coach:exercise writes through these two, never by hand: the index is
+// /mycoach:exercise writes through these two, never by hand: the index is
 // first-come for aliases but a canonical name always wins its key, so one
 // careless row could take "становая" away from every deadlift ever logged.
 const TABLE = `# Упражнения

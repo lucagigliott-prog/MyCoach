@@ -1,6 +1,6 @@
 ---
 name: coach-log
-description: This skill should be used when the athlete dictates a workout they just finished, in any wording, or asks to "log my workout", "record the session", "запиши тренировку", "записал тренировку", or runs /coach:log. It parses free-form dictation into the log format, records it, validates it, and reports deviations from the plan and any new records.
+description: This skill should be used when the athlete dictates a workout they just finished, in any wording, or asks to "log my workout", "record the session", "запиши тренировку", "записал тренировку", or runs /mycoach:log. It parses free-form dictation into the log format, records it, validates it, and reports deviations from the plan and any new records.
 argument-hint: "[athlete] [date] <what you did>"
 ---
 
@@ -28,7 +28,7 @@ Never state a date from memory.
 ## 1. Guard
 
 Check for `.coach.json` in the working directory. Missing — tell the
-athlete to run `/coach:init` and stop; this skill creates nothing on its
+athlete to run `/mycoach:init` and stop; this skill creates nothing on its
 own. Present — check its `schema` field: anything other than `1` means the
 plugin and the data folder are out of sync, so say so and stop without
 attempting to auto-migrate.
@@ -65,7 +65,7 @@ try to strip more structure out of the arguments than that.
 3. Otherwise, the target is `athletes/<id>/log/<today>.md`, to be created
    fresh with no `## План`/`## Plan` section — only frontmatter, then
    `## Факт`/`## Actual`, then `## Заметки`/`## Notes`. Determine
-   `session` the same way `/coach:plan` does: `program.md`'s `Meta →
+   `session` the same way `/mycoach:plan` does: `program.md`'s `Meta →
    rotation`, the next name after the last `done` session from the
    `recent` output above. State that inferred name in the reply as an
    assumption ("logging this as Upper A — say so if that's wrong") rather
@@ -90,7 +90,7 @@ day toward `days_per_week` or the rotation.
 **If the target file already has `status: done`** (the athlete is logging
 into a slot that's already recorded), don't silently overwrite it. Ask:
 add to it, replace it entirely, or cancel — same three-way choice
-`/coach:plan` uses for an existing file, and wait for the answer before
+`/mycoach:plan` uses for an existing file, and wait for the answer before
 step 7 writes anything.
 
 ## 4. Addressee check

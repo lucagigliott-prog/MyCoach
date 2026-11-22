@@ -1,6 +1,6 @@
 ---
 name: coach-init
-description: This skill should be used when the user asks to "set up the coach", "start the gym coach", "add an athlete", "настроить тренера", "добавить подопечного", or runs /coach:init. It creates the coach data folder, interviews the athlete, chooses a training methodology together with them, records the gym inventory, and writes the starting program.
+description: This skill should be used when the user asks to "set up the coach", "start the gym coach", "add an athlete", "настроить тренера", "добавить подопечного", or runs /mycoach:init. It creates the coach data folder, interviews the athlete, chooses a training methodology together with them, records the gym inventory, and writes the starting program.
 argument-hint: "[athlete id]"
 ---
 
@@ -9,7 +9,7 @@ argument-hint: "[athlete id]"
 Runs the one-time onboarding for a new coach data folder, or adds/redoes an
 athlete inside an existing one. This is the only skill allowed to create
 `.coach.json` or an athlete's `profile.md` from scratch. Gym inventory
-files are written here and by `/coach:gym`, which edits one later or
+files are written here and by `/mycoach:gym`, which edits one later or
 creates an athlete's own when they move to a gym of their own.
 
 This document is written in English, for the model. Everything the coach
@@ -35,7 +35,7 @@ Go to §2 (full setup), then run the athlete onboarding in §3–§7 for the
 first athlete.
 
 **B. `.coach.json` exists, and the skill was invoked with an id
-(`/coach:init <id>`) that is NOT a key in that file's `athletes` object.**
+(`/mycoach:init <id>`) that is NOT a key in that file's `athletes` object.**
 This is a new athlete joining an existing folder. Skip §2. Run the athlete
 onboarding in §3–§7 for this id, then add it to `.coach.json` under
 `athletes` as `{ name, language, days_per_week, gym, motivation }` —
@@ -182,7 +182,7 @@ the athlete disagrees. Borderline cases are the athlete's call, not a
 silent default.
 
 Invoke the chosen agent with the Agent tool, `subagent_type`
-`coach:program-<kind>` (matching the agent names above). The agent cannot
+`mycoach:program-<kind>` (matching the agent names above). The agent cannot
 ask the athlete anything — it does its work once, autonomously, and
 returns a report — so the call must contain everything it needs:
 
@@ -282,9 +282,9 @@ List the files created (`.coach.json` if this was a full setup, `exercises.md`
 if new, `athletes/<id>/profile.md`, `athletes/<id>/program.md`, and any
 `gym.md`) — or, if the specialist call in §6 failed, list what was saved
 without `program.md` and say the programme is still pending. Explain the
-daily cycle in one or two lines: `/coach:plan` before the gym, `/coach:log`
+daily cycle in one or two lines: `/mycoach:plan` before the gym, `/mycoach:log`
 after. If the athlete mentioned any prior training history (a paper log,
-an old spreadsheet), offer `/coach:import`.
+an old spreadsheet), offer `/mycoach:import`.
 
 **Offer a history of the folder — once, on a full setup only.** Run
 `git rev-parse --is-inside-work-tree` in the data folder. If it succeeds,

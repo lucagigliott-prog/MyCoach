@@ -1,6 +1,6 @@
 ---
 name: coach-plan
-description: This skill should be used when the user asks "what am I doing today", "write my workout", "plan the session", "что сегодня", "напиши тренировку", or runs /coach:plan. It writes the next workout from the athlete's program and recent history.
+description: This skill should be used when the user asks "what am I doing today", "write my workout", "plan the session", "что сегодня", "напиши тренировку", or runs /mycoach:plan. It writes the next workout from the athlete's program and recent history.
 argument-hint: "[athlete] [date or session]"
 ---
 
@@ -28,7 +28,7 @@ Never state a date from memory.
 ## 1. Guard
 
 Check for `.coach.json` in the working directory. Missing — tell the
-athlete to run `/coach:init` and stop; this skill creates nothing on its
+athlete to run `/mycoach:init` and stop; this skill creates nothing on its
 own. Present — check its `schema` field: anything other than `1` means
 the plugin and the data folder are out of sync, so say so and stop
 without attempting to auto-migrate.
@@ -70,7 +70,7 @@ node "${CLAUDE_PLUGIN_ROOT}/scripts/stats.mjs" recent --athlete <id> --n 5
 before today, however far back — `recent`'s five rows can miss an old
 one. If there is one, surface it before anything else in the reply — before the new
 plan, before any other observation. Offer the athlete a choice of three:
-- **Log it** — tell them to run `/coach:log` for that date; this skill
+- **Log it** — tell them to run `/mycoach:log` for that date; this skill
   doesn't parse free-text diction, so don't try to fill in the facts here.
 - **Drop it** — set that file's `status` to `skipped` and add a short note
   to its Notes section ("skipped — superseded, never logged").
@@ -112,9 +112,9 @@ paragraph), the athlete's existing plan must still be exactly as it was.
 ## 6. Determine the session and gather statistics
 
 Read `athletes/<id>/program.md`. If it doesn't exist — an athlete can be
-registered in `.coach.json` with no programme yet, if `/coach:init`'s
+registered in `.coach.json` with no programme yet, if `/mycoach:init`'s
 specialist call was unreachable — say so and point the athlete at
-`/coach:init` to finish the setup, rather than failing on a missing file.
+`/mycoach:init` to finish the setup, rather than failing on a missing file.
 
 - If a session-name argument was given in step 3 and it matches one of
   the `### <name>` headers under `## Sessions`, that is the session,
@@ -201,7 +201,7 @@ step 7, that there are no recent notes.
 
 The planner agent cannot ask the athlete anything — it works once,
 autonomously, and returns a report — so its task must contain everything
-it needs. Invoke it with the Agent tool, `subagent_type: coach:planner`,
+it needs. Invoke it with the Agent tool, `subagent_type: mycoach:planner`,
 and give it, explicitly, in the prompt:
 
 - The athlete's folder path (`athletes/<id>`), their language, and their
@@ -266,7 +266,7 @@ A load the script returns unchanged is buildable. One it changes wasn't:
 use the script's load, edit the file, and note the correction as an extra
 adjustment line when you print the plan. If the gym file has no
 machine-readable plate lines, the script says so — check by the file's
-prose instead, and suggest `/coach:gym` to record the plates. Machines and
+prose instead, and suggest `/mycoach:gym` to record the plates. Machines and
 cables are checked against the stack step `gym.md` names.
 
 For the first working weight of each main barbell lift, get the warm-up:
@@ -300,7 +300,7 @@ Find a substitute using the athlete's own inventory (`gym.md`) and the
 matching movement pattern and respecting anything the athlete has said
 they refuse to do. Recompute the working weight so it stays buildable
 from their plates, the same check as step 8. If it will help their later
-`/coach:log` match what's actually on paper, update the `## Plan` section
+`/mycoach:log` match what's actually on paper, update the `## Plan` section
 of that day's log file to reflect the substitution — this is a same-day
 lookup, not a program change, so it does not need a `Changelog` entry.
 

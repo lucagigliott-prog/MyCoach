@@ -67,7 +67,7 @@ test('validate exits non-zero on a broken file', () => {
 
 test('a folder without .coach.json fails with a readable message', () => {
   const out = run(['brief', '--dir', '/tmp'], true);
-  assert.match(out, /coach:init/);
+  assert.match(out, /mycoach:init/);
   assert.ok(!/at Object/.test(out), 'must not print a stack trace');
 });
 

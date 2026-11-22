@@ -3,7 +3,7 @@
 ## Reporting a vulnerability
 
 Please report security problems privately, through GitHub's
-[private vulnerability reporting](https://github.com/nikitavovch/claude-gym-coach/security/advisories/new)
+[private vulnerability reporting](https://github.com/lucagigliott-prog/MyCoach/security/advisories/new)
 — not in a public issue. You will get an acknowledgement within a week,
 and a fix or a plan for one as soon as the problem is understood.
 

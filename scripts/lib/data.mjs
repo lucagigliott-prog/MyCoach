@@ -12,7 +12,7 @@ export const ATHLETE_ID = /^[a-z0-9][a-z0-9_-]*$/;
 export function loadConfig(dir) {
   const path = join(dir, '.coach.json');
   if (!existsSync(path)) {
-    throw new CoachError('this folder is not a coach data folder — run /coach:init');
+    throw new CoachError('this folder is not a coach data folder — run /mycoach:init');
   }
 
   let raw;
@@ -51,7 +51,7 @@ export function loadConfig(dir) {
 
 export function resolveAthlete(config, requested) {
   const ids = Object.keys(config.athletes);
-  if (!ids.length) throw new CoachError('no athletes configured — run /coach:init');
+  if (!ids.length) throw new CoachError('no athletes configured — run /mycoach:init');
 
   if (!requested) {
     if (!config.defaultAthlete) throw new CoachError(`no default athlete — pass one of: ${ids.join(', ')}`);

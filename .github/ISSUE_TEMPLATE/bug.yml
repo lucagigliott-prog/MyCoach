@@ -12,7 +12,7 @@ body:
     id: what
     attributes:
       label: What happened
-      description: The command you ran (e.g. `/coach:log`) and what the coach did or said.
+      description: The command you ran (e.g. `/mycoach:log`) and what the coach did or said.
     validations:
       required: true
   - type: textarea

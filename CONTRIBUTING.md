@@ -21,7 +21,7 @@ please read those before opening a pull request.
 - **Port it** — to another agent CLI (see the roadmap in the README).
   Open an issue first so the work can be shared.
 
-Questions and ideas go to [Discussions](https://github.com/nikitavovch/claude-gym-coach/discussions);
+Questions and ideas go to [Discussions](https://github.com/lucagigliott-prog/MyCoach/discussions);
 security problems go through [SECURITY.md](SECURITY.md), never a public
 issue.
 
@@ -38,7 +38,7 @@ and Vera — keep it that way.
 No dependencies, no build step, no `package.json`. Node 20 or newer.
 
 ```
-git clone https://github.com/nikitavovch/claude-gym-coach
+git clone https://github.com/lucagigliott-prog/MyCoach
 cd claude-gym-coach
 node --test                                  # the whole suite, ~3 s
 node scripts/stats.mjs help                  # the CLI the skills drive
@@ -50,7 +50,7 @@ and run it in a throwaway data folder:
 
 ```
 claude plugin marketplace add "$(pwd)"       # from inside your clone
-claude plugin install coach@claude-gym-coach
+claude plugin install mycoach@mycoach
 mkdir /tmp/coach-try && cd /tmp/coach-try && claude
 ```
 

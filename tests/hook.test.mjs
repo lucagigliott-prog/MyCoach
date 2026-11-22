@@ -200,11 +200,11 @@ test('the hook converts its own file URL with fileURLToPath, not URL.pathname', 
 const persona = () => readFileSync(join(ROOT, 'hooks', 'persona.md'), 'utf8');
 
 test('persona routes technique questions to the technique specialist', () => {
-  assert.match(persona(), /coach:technique/);
+  assert.match(persona(), /mycoach:technique/);
 });
 
 test('persona routes nutrition and pharmacology questions to the nutrition specialist', () => {
-  assert.match(persona(), /coach:nutrition/);
+  assert.match(persona(), /mycoach:nutrition/);
 });
 
 test('the hook still prints the plugin root line for commands run by hand', () => {

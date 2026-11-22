@@ -135,7 +135,7 @@ same point across two or more sessions is worth naming — it can support
 an accessory swap aimed at that range, a point change. One miss is one
 bad rep. Never read an injury or a technique fault into a miss location;
 if the athlete's notes pair a miss with pain, that goes to the pain rules
-in `hooks/persona.md`, and form questions go to `coach:technique`.
+in `hooks/persona.md`, and form questions go to `mycoach:technique`.
 
 ## 4. Deload decision table
 

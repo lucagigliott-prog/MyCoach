@@ -1,6 +1,6 @@
 ---
 name: coach-review
-description: This skill should be used when the user asks "how am I progressing", "review my training", "should I change the program", "разбери прогресс", "что по прогрессу", or runs /coach:review. It analyses the period, explains what grew and what stalled, and proposes program changes for approval.
+description: This skill should be used when the user asks "how am I progressing", "review my training", "should I change the program", "разбери прогресс", "что по прогрессу", or runs /mycoach:review. It analyses the period, explains what grew and what stalled, and proposes program changes for approval.
 argument-hint: "[athlete] [4w | 3m | YYYY-MM-DD]"
 ---
 
@@ -27,7 +27,7 @@ Never state a date from memory.
 ## 1. Guard
 
 Check for `.coach.json` in the working directory. Missing — tell the
-athlete to run `/coach:init` and stop; this skill creates nothing on its
+athlete to run `/mycoach:init` and stop; this skill creates nothing on its
 own. Present — check its `schema` field: anything other than `1` means the
 plugin and the data folder are out of sync, so say so and stop without
 attempting to auto-migrate.
@@ -59,7 +59,7 @@ node "${CLAUDE_PLUGIN_ROOT}/scripts/stats.mjs" recent --athlete <id> --n 1 --jso
 ```
 An empty `rows` array means this athlete has never logged a single
 session — there is no history to review, not just a thin one. Say so plainly, point them
-at `/coach:log` or `/coach:plan` to get started, and stop here; don't call
+at `/mycoach:log` or `/mycoach:plan` to get started, and stop here; don't call
 the analyst on nothing. A non-empty result means there's at least some
 history, even if the chosen period turns out to hold little or none of it
 — that case is not a stop condition, it's a finding, and it's step 4's job
@@ -78,7 +78,7 @@ has no staleness check — running it indefinitely is normal, so don't ask
 about it on that basis alone. Both numbers are practical defaults for
 catching a forgotten phase file, not sourced thresholds; say so if asked.
 If the athlete confirms an aged cut or bulk is still accurate, proceed
-normally. If they say it's actually changed, point them at `/coach:phase
+normally. If they say it's actually changed, point them at `/mycoach:phase
 <new phase>` to update it first, since this skill does not write
 `phases.md` itself; once they've updated it (or say to proceed anyway),
 continue to step 4.
@@ -108,8 +108,8 @@ and into the review file in step 10 unedited.
 
 - Read `athletes/<id>/program.md` verbatim: Meta, Progression rules,
   Deload rules, Sessions, and the existing Changelog. If it doesn't exist
-  — an athlete can be registered with no programme yet, if `/coach:init`'s
-  specialist call was unreachable — say so and point at `/coach:init` to
+  — an athlete can be registered with no programme yet, if `/mycoach:init`'s
+  specialist call was unreachable — say so and point at `/mycoach:init` to
   finish setup, rather than reviewing a programme that isn't there.
 - Read `athletes/<id>/profile.md` verbatim — goal, training age,
   limitations, schedule, preferences, the methodology and why.
@@ -161,7 +161,7 @@ athlete's per-item consent this skill exists to enforce. Every write to
 `program.md` in this skill happens in step 8 or step 9, never inside this
 call.
 
-Invoke it with the Agent tool, `subagent_type: coach:analyst`, and give it,
+Invoke it with the Agent tool, `subagent_type: mycoach:analyst`, and give it,
 explicitly, in the prompt:
 
 - The athlete's folder path (`athletes/<id>`), their language, and their
@@ -279,7 +279,7 @@ own working file, not the athlete's; it exists only until this proposal
 is resolved, below.
 
 Invoke the chosen agent with the Agent tool, `subagent_type:
-coach:program-<kind>`. It cannot ask the athlete anything, so give it,
+mycoach:program-<kind>`. It cannot ask the athlete anything, so give it,
 explicitly, in the prompt:
 
 - The athlete's folder path (`athletes/<id>`), their language, and their

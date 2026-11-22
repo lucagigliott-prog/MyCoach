@@ -291,7 +291,7 @@ function exerciseKeyer(db) {
 }
 
 function tableWarnings(db) {
-  return db.missing ? ['no exercises.md in this folder — every exercise reads as unknown; restore it or run /coach:init'] : [];
+  return db.missing ? ['no exercises.md in this folder — every exercise reads as unknown; restore it or run /mycoach:init'] : [];
 }
 
 function entriesFor(athlete, canonical, db) {
@@ -573,7 +573,7 @@ function unknownInPeriod(days, db) {
   const keyOf = exerciseKeyer(db);
   for (const day of days) for (const entry of day.actual) keyOf(entry.name);
   return keyOf.unknown.size
-    ? [`exercise names not in exercises.md: ${[...keyOf.unknown].join(', ')} — /coach:exercise adds them`]
+    ? [`exercise names not in exercises.md: ${[...keyOf.unknown].join(', ')} — /mycoach:exercise adds them`]
     : [];
 }
 
@@ -905,11 +905,11 @@ export function exportRows(dir, config, id, table, since, today) {
   return { columns, rows, warnings: athlete.warnings };
 }
 
-// /coach:exercise's two writes to the folder's exercises.md. Every check
+// /mycoach:exercise's two writes to the folder's exercises.md. Every check
 // lives in exercises.mjs; the file is only written once the change passed.
 function exercisesPath(dir) {
   const path = join(dir, 'exercises.md');
-  if (!existsSync(path)) throw new CoachError(`no exercises.md in ${dir} — run /coach:init first`);
+  if (!existsSync(path)) throw new CoachError(`no exercises.md in ${dir} — run /mycoach:init first`);
   return path;
 }
 
@@ -934,7 +934,7 @@ export function exerciseAlias(dir, config, target, aliases) {
 function gymFor(dir, config, id) {
   const own = config.athletes[id]?.gym === 'own';
   const path = own ? join(dir, 'athletes', id, 'gym.md') : join(dir, 'gym.md');
-  if (!existsSync(path)) throw new CoachError(`no ${own ? `athletes/${id}/gym.md` : 'gym.md'} — /coach:gym records the equipment`);
+  if (!existsSync(path)) throw new CoachError(`no ${own ? `athletes/${id}/gym.md` : 'gym.md'} — /mycoach:gym records the equipment`);
   return { gym: parseGymLoads(readFileSync(path, 'utf8')), file: own ? `athletes/${id}/gym.md` : 'gym.md' };
 }
 
@@ -949,11 +949,11 @@ export function loadFor(dir, config, id, target, { dumbbell = false } = {}) {
   const { gym, file } = gymFor(dir, config, id);
   const units = config.athletes[id]?.units ?? config.units;
   if (dumbbell) {
-    if (!gym.dumbbells) throw new CoachError(`${file} has no "- dumbbells:" line (e.g. "- dumbbells: 2–40 step 2") — /coach:gym adds it`);
+    if (!gym.dumbbells) throw new CoachError(`${file} has no "- dumbbells:" line (e.g. "- dumbbells: 2–40 step 2") — /mycoach:gym adds it`);
     return { target: t, units, dumbbell: true, load: nearestDumbbell(t, gym) };
   }
   if (!gym.bar || !gym.plates.length) {
-    throw new CoachError(`${file} has no "- bar:" and "- plates:" lines (e.g. "- bar: 20", "- plates: 25, 20, 15, 10, 5, 2.5, 1.25") — /coach:gym adds them`);
+    throw new CoachError(`${file} has no "- bar:" and "- plates:" lines (e.g. "- bar: 20", "- plates: 25, 20, 15, 10, 5, 2.5, 1.25") — /mycoach:gym adds them`);
   }
   return { target: t, units, dumbbell: false, ...nearestBarbell(t, gym) };
 }
@@ -962,7 +962,7 @@ export function warmupFor(dir, config, id, working) {
   const w = positiveLoad(working);
   const { gym, file } = gymFor(dir, config, id);
   if (!gym.bar || !gym.plates.length) {
-    throw new CoachError(`${file} has no "- bar:" and "- plates:" lines — /coach:gym adds them`);
+    throw new CoachError(`${file} has no "- bar:" and "- plates:" lines — /mycoach:gym adds them`);
   }
   return { working: nearestBarbell(w, gym).load, units: config.athletes[id]?.units ?? config.units, steps: warmupLadder(w, gym) };
 }

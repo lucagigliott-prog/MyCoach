@@ -1,10 +1,17 @@
 # Changelog
 
-Notable changes to claude-gym-coach. The format follows
+Notable changes to MyCoach (a fork of claude-gym-coach). The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and versions
 follow [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+### Changed
+
+- Forked as MyCoach: the plugin is renamed `mycoach` (commands
+  `/mycoach:*`, agents `mycoach:*`), the manifests, persona and README are
+  re-scoped from strength-only to multi-sport, and the licence keeps the
+  upstream copyright alongside ours. No behaviour change yet.
 
 ### Added
 
@@ -24,32 +31,32 @@ reviewers went through everything below.
 
 ### Coaching
 
-- `/coach:init` — a first setup as a conversation: about ten questions,
+- `/mycoach:init` — a first setup as a conversation: about ten questions,
   a health screen (PAR-Q+), two or three methodologies with their
   trade-offs, the gym's equipment, and a programme designed by one of four
   specialists (beginner, strength, hypertrophy, powerbuilding) inside the
   gym's real equipment. A second athlete can share the folder.
-- `/coach:plan` — the next session from the programme's rotation and
+- `/mycoach:plan` — the next session from the programme's rotation and
   rules and the athlete's own history. Every barbell and dumbbell load is
   rounded by `stats.mjs load` to the gym's plates, with the plates for each
   side, and each main lift gets a warm-up ramp from `stats.mjs warmup`.
-- `/coach:log` — free dictation in any wording, in English or Russian, into
+- `/mycoach:log` — free dictation in any wording, in English or Russian, into
   the log format: sets, RPE, misses and where they stopped, cardio, a
   morning bodyweight, a day with only cardio. It asks rather than guesses,
   except where today's plan already names the exercise meant, and then
   says what it wrote; it never holds a session back for the duration or
   how it felt. It shows the lines it wrote, questions a load far off the
   last session, and announces a record only when there was one to beat.
-- `/coach:review` — a period read against the programme by an analyst:
+- `/mycoach:review` — a period read against the programme by an analyst:
   records, trends against six to eight weeks earlier, stalls, volume,
   attendance, misses, cardio interference, fatigue signals listed as what
   fired, bodyweight against the phase. It asks whether a stale profile
   still holds, and applies no change until the athlete confirms each one.
-- `/coach:phase` — cut, bulk or maintain, with the measured bodyweight
+- `/mycoach:phase` — cut, bulk or maintain, with the measured bodyweight
   rate judged against a signed target.
-- `/coach:import` — a paper notebook, pasted or photographed, into one log
+- `/mycoach:import` — a paper notebook, pasted or photographed, into one log
   file per day; photos are transcribed for the athlete to correct first.
-- `/coach:exercise` and `/coach:gym` — teach the coach an exercise or a
+- `/mycoach:exercise` and `/mycoach:gym` — teach the coach an exercise or a
   name for one, and keep the gym's equipment current, each through a
   guarded writer.
 - Technique and nutrition specialists, reached from any conversation. The

@@ -1,6 +1,6 @@
 ---
 name: coach-gym
-description: This skill should be used when the athlete's equipment changes — "we got new dumbbells", "купил микроблины", "в зале убрали жим ногами", "I moved to a new gym", "перешёл в другой зал", "update my gym", "обнови инвентарь", or runs /coach:gym. It edits the gym inventory the coach plans against, without re-running init, and says which programmed exercises the change affects.
+description: This skill should be used when the athlete's equipment changes — "we got new dumbbells", "купил микроблины", "в зале убрали жим ногами", "I moved to a new gym", "перешёл в другой зал", "update my gym", "обнови инвентарь", or runs /mycoach:gym. It edits the gym inventory the coach plans against, without re-running init, and says which programmed exercises the change affects.
 argument-hint: "[athlete] <what changed>"
 ---
 
@@ -32,7 +32,7 @@ directory, which during a run is the athlete's data folder.
 ## 1. Guard
 
 Check for `.coach.json` in the working directory. Missing — tell the
-athlete to run `/coach:init` and stop. Present — check its `schema` field:
+athlete to run `/mycoach:init` and stop. Present — check its `schema` field:
 anything other than `1` means the plugin and the data folder are out of
 sync, so say so and stop without attempting to auto-migrate.
 
@@ -109,10 +109,10 @@ Say what the inventory now holds, in a line or two, and then, per
 athlete, what it means for their programme — or that nothing is affected.
 For an exercise that dropped out:
 
-- an accessory: `/coach:plan` substitutes it on the next session and
+- an accessory: `/mycoach:plan` substitutes it on the next session and
   records the change in the programme's changelog;
 - a main lift: changing the main lifts is a structural change, so point
-  to `/coach:review`, which proposes a substitute for the athlete to
+  to `/mycoach:review`, which proposes a substitute for the athlete to
   confirm.
 
 Never substitute anything in `program.md` from this skill.

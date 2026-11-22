@@ -50,7 +50,7 @@ export function resolveExercise(name, db) {
   return db.index.get(normalizeName(name)) ?? null;
 }
 
-// --- Writing the athlete's own table (/coach:exercise) ---------------------
+// --- Writing the athlete's own table (/mycoach:exercise) ---------------------
 //
 // Both functions take the file's text and return the new text, or an
 // { error } that says what to fix. They refuse any name the table already

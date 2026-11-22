@@ -1,6 +1,6 @@
 ---
 name: coach-exercise
-description: This skill should be used when the athlete wants the coach to know an exercise it doesn't recognize, or another name for one it does — "add an exercise", "добавь упражнение", "у меня своё упражнение", "the coach doesn't know X", "я называю это по-другому", "запомни, что X — это Y", or runs /coach:exercise. It adds a row to the data folder's exercises.md, or an alias to an existing row, through the statistics script.
+description: This skill should be used when the athlete wants the coach to know an exercise it doesn't recognize, or another name for one it does — "add an exercise", "добавь упражнение", "у меня своё упражнение", "the coach doesn't know X", "я называю это по-другому", "запомни, что X — это Y", or runs /mycoach:exercise. It adds a row to the data folder's exercises.md, or an alias to an existing row, through the statistics script.
 argument-hint: "<exercise name>"
 ---
 
@@ -31,7 +31,7 @@ which during a run is the athlete's data folder, not the plugin.
 ## 1. Guard
 
 Check for `.coach.json` in the working directory. Missing — tell the
-athlete to run `/coach:init` and stop. Present — check its `schema` field:
+athlete to run `/mycoach:init` and stop. Present — check its `schema` field:
 anything other than `1` means the plugin and the data folder are out of
 sync, so say so and stop without attempting to auto-migrate.
 

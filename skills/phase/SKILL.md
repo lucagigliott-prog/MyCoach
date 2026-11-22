@@ -1,6 +1,6 @@
 ---
 name: coach-phase
-description: This skill should be used when the athlete asks about or wants to change their nutrition phase — "what phase am I in", "какая у меня фаза", "switch to a cut", "I'm bulking now", "перешёл на сушку", "я на массе", "поддержание", or runs /coach:phase. It reports the current phase (and the one before it) or closes the open phase and starts a new one.
+description: This skill should be used when the athlete asks about or wants to change their nutrition phase — "what phase am I in", "какая у меня фаза", "switch to a cut", "I'm bulking now", "перешёл на сушку", "я на массе", "поддержание", or runs /mycoach:phase. It reports the current phase (and the one before it) or closes the open phase and starts a new one.
 argument-hint: "[athlete] [cut | bulk | maintain] [date]"
 ---
 
@@ -40,7 +40,7 @@ prose.
 ## 1. Guard
 
 Check for `.coach.json` in the working directory. Missing — tell the
-athlete to run `/coach:init` and stop; this skill creates nothing on its
+athlete to run `/mycoach:init` and stop; this skill creates nothing on its
 own. Present — check its `schema` field: anything other than `1` means the
 plugin and the data folder are out of sync, so say so and stop without
 attempting to auto-migrate.
@@ -70,10 +70,10 @@ decides the mode:
   was meant; name the three valid values and ask.
 
 When this skill is triggered by free-form conversation instead of the
-literal `/coach:phase` command ("я перешёл на сушку", "switching to a
+literal `/mycoach:phase` command ("я перешёл на сушку", "switching to a
 bulk"), there are no positional arguments to parse — read the intended
 phase (and any date the athlete mentioned) out of what they actually said,
-the same way `/coach:log` reads dictated sets out of free text. If the
+the same way `/mycoach:log` reads dictated sets out of free text. If the
 athlete's own words name a reason ("на сушку — до свадьбы в декабре"),
 carry that into the `Note` column in step 4.4; don't ask for a reason
 separately, that's a question this flow doesn't call for.
@@ -212,7 +212,7 @@ tested `phase set` subcommand:
 
 Before replying, run `phase --athlete <id> --json` once more and confirm
 `warnings` is empty and the reported `phase`/`from` match what was just
-written — don't trust the edit unread, the same way `/coach:plan` verifies
+written — don't trust the edit unread, the same way `/mycoach:plan` verifies
 the weights it wrote before showing them. A non-empty `warnings` array
 means the edit produced a malformed or overlapping file; show the athlete
 exactly what it says and fix the row rather than reporting success anyway.

@@ -1,6 +1,6 @@
 ---
 name: coach-import
-description: This skill should be used when the athlete pastes old workouts from a paper notebook, sends photos of its pages, or asks to "import my history", "load my old workouts", "перенести тетрадь", "импортировать тренировки", or runs /coach:import. It transcribes photos for the athlete to check first, splits the text by date, normalizes exercise names, and writes one log file per day.
+description: This skill should be used when the athlete pastes old workouts from a paper notebook, sends photos of its pages, or asks to "import my history", "load my old workouts", "перенести тетрадь", "импортировать тренировки", or runs /mycoach:import. It transcribes photos for the athlete to check first, splits the text by date, normalizes exercise names, and writes one log file per day.
 argument-hint: "[athlete] <pasted notebook or photos>"
 ---
 
@@ -31,7 +31,7 @@ against (§4).
 ## 1. Guard
 
 Check for `.coach.json` in the working directory. Missing — tell the
-athlete to run `/coach:init` and stop; this skill creates nothing on its
+athlete to run `/mycoach:init` and stop; this skill creates nothing on its
 own. Present — check its `schema` field: anything other than `1` means
 the plugin and the data folder are out of sync, so say so and stop
 without attempting to auto-migrate.

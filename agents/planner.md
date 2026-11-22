@@ -87,7 +87,7 @@ rule gives, then run
 nearest weight the athlete's `gym.md` can actually build, an exact tie
 rounded down. If the command says the gym file has no `- bar:` /
 `- plates:` lines, round by the file's prose as before and say in your
-report that the gym's plates should be recorded (`/coach:gym`). Machines
+report that the gym's plates should be recorded (`/mycoach:gym`). Machines
 and cables keep their stack's step, read from `gym.md`. Prefer a finer fractional
 increment (e.g. 1.25 kg, or 2.5 lb, total) for barbell upper-body work if the
 athlete's `gym.md` lists one and their log shows they've used

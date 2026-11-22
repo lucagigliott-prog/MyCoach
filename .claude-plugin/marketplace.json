@@ -1,35 +1,36 @@
 {
-  "name": "claude-gym-coach",
+  "name": "mycoach",
   "owner": {
-    "name": "Nikita Vovchenko",
-    "url": "https://github.com/nikitavovch"
+    "name": "Luca",
+    "url": "https://github.com/lucagigliott-prog"
   },
   "metadata": {
-    "description": "A personal strength coach for Claude Code",
-    "version": "1.0.0"
+    "description": "A personal multi-sport training coach for Claude Code",
+    "version": "1.1.0-dev"
   },
   "plugins": [
     {
-      "name": "coach",
+      "name": "mycoach",
       "source": "./",
-      "description": "A personal strength coach: designs your programme, plans each session from your own history, logs what you dictate and reviews every block — in plain markdown you own.",
-      "version": "1.0.0",
+      "description": "A personal multi-sport training coach: assesses you, designs your plan, follows you week by week and re-plans at every reassessment — in plain markdown you own.",
+      "version": "1.1.0-dev",
       "author": {
-        "name": "Nikita Vovchenko",
-        "url": "https://github.com/nikitavovch"
+        "name": "Luca",
+        "url": "https://github.com/lucagigliott-prog"
       },
       "category": "productivity",
       "keywords": [
         "fitness",
-        "gym",
         "coach",
         "personal-trainer",
+        "multi-sport",
+        "bjj",
+        "cardio",
         "strength-training",
         "powerlifting",
         "hypertrophy",
-        "bodybuilding",
+        "periodization",
         "workout-log",
-        "workout-tracker",
         "training-log",
         "workout-planner",
         "progressive-overload",

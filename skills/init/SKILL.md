@@ -1,6 +1,6 @@
 ---
 name: coach-init
-description: This skill should be used when the user asks to "set up the coach", "start the gym coach", "add an athlete", "настроить тренера", "добавить подопечного", or runs /mycoach:init. It creates the coach data folder, interviews the athlete, chooses a training methodology together with them, records the gym inventory, and writes the starting program.
+description: This skill should be used when the user asks to "set up the coach", "start the gym coach", "add an athlete", "настроить тренера", "добавить подопечного", or runs /mycoach:init. It creates the coach data folder, interviews the athlete (including any other sport or activity in their week), chooses a training methodology together with them, records the gym inventory, and writes the starting program.
 argument-hint: "[athlete id]"
 ---
 
@@ -56,8 +56,8 @@ with AskUserQuestion, to choose one of:
 - **Redo an existing athlete's onboarding** — if there is more than one
   athlete, ask which one (default to the id that was passed, if any).
   Re-run §3–§7 for that id. `log/` and `reviews/` are never touched by this
-  path; only `profile.md`, `program.md`, and (if the athlete has their own
-  gym) their `gym.md` are candidates for replacement, and only with the
+  path; only `profile.md`, `program.md`, `sports.md` if there is one, and (if the
+  athlete has their own gym) their `gym.md` are candidates for replacement, and only with the
   confirmation required by the "never overwrite" rule below.
 - **Stop** — say nothing was changed and end the skill.
 
@@ -114,20 +114,62 @@ Ask in this order:
    specialist in §6, which programmes conservatively.
 6. Whether to turn on short motivational lines in the coach's replies
    (`motivation: true`/`false`).
-7. Goal — offer strength / size (hypertrophy) / both / general fitness as
-   options.
-8. Training age — how long and how systematically they've trained, and
+7. Goal — offer strength / size (hypertrophy) / both / general fitness /
+   performance in a sport as options; for the last, ask which sport.
+8. Other activities — "Besides lifting, which activities are part of your
+   week, or must stay part of it?" Offer BJJ / running / cycling /
+   swimming / a team sport / other as a multi-select, plus "none —
+   lifting only". **None skips items 9, 10 and 13, and no `sports.md` is
+   written**: the flow is then exactly the one this skill always had.
+   MyCoach programmes lifting only; if the athlete says they do not want
+   lifting at all, say so plainly and go on only if they still want it.
+9. Which comes first — asked only when item 8 named something: "When
+   recovery is short, which of these gives way last?" Single-select:
+   lifting and each activity from item 8.
+10. One message per activity from item 8: "Think of the last four weeks
+   of <activity>. In a typical week: how many sessions, how long each, and
+   how hard — mostly easy, mixed, or mostly hard? And how long have you
+   been doing it at about this level?" For grappling (BJJ, judo,
+   wrestling) read "hard" as live sparring and offer "mostly drilling /
+   mixed / mostly live sparring". Record the answer as said.
+11. Training age — how long and how systematically they've trained, and
    whether they have barbell experience.
-9. Rough current working weights on the main lifts, or "no idea" — if they
+12. Rough current working weights on the main lifts, or "no idea" — if they
    don't know, tell them the first session will calibrate the numbers
    instead of guessing.
-10. Days per week and session length.
-11. Injuries and limitations, in their own words.
-12. Anything else the coach should know.
-13. What they enjoy training and what they refuse to do.
+13. Fixed sessions — asked only when item 8 named something: "Which
+   sessions can't move (activity, day, time), and which days can you not
+   train at all?"
+14. Days per week and session length, counting every activity: "How many
+   days a week can you train in total, and what is the longest session
+   you can fit?"
+15. A date to build toward — "Is there a date you're building toward: a
+   competition, a race, a test? If so, which activity, which date, and
+   what would count as success?" "No" is a complete answer.
+16. Injuries and limitations, in their own words — including any that come
+   from the activities named in item 8.
+17. Anything else the coach should know.
+18. What they enjoy training and what they refuse to do, activities
+   included.
 
 Record every answer verbatim; they get passed on unmodified later and
-written into `profile.md`.
+written into `profile.md` (items 8–10 and 13 into `sports.md`, §7).
+
+Why items 8–15 exist — each feeds something a specialist already does:
+item 10 gives the weekly hours and how hard they are, which the
+specialists' "Cardio in the schedule" rules need (lift first or keep a gap
+of at least 3 h, protect the heaviest lower-body day, budget by hours per
+week); the endurance-interference literature says the effect depends on
+the modality, frequency and duration of the endurance work and is small
+`[sourced: Wilson 2012; Huiberts 2024]`. For grappling, injuries
+concentrate in live sparring — 77.6% of the injuries in a survey of 1,140
+BJJ athletes, the knee the most common site — which is why "hard" means
+sparring there `[sourced: Hinz 2021; self-reported survey]`. Items 13 and
+14 fix how many days a lifting week can occupy. Item 15 is the date the
+strength specialist peaks toward; the taper meta-analysis found a
+two-week taper with volume cut 41–60% and intensity and frequency kept
+`[sourced: Bosquet 2007]`. Item 9's ranking only decides what gives way
+when sessions collide `[expert default, unverified]`.
 
 ## 4. Choose the methodology together
 
@@ -138,6 +180,12 @@ time or fatigue tolerance). Drop anything that clearly doesn't fit with a
 single line of reasoning ("ruled out: X needs 5 days, you have 3").
 Present your recommendation first. The athlete picks one, asks to combine
 elements of two, or pushes back — follow their call once they've decided.
+
+When item 8 named other activities, every option you propose must say how
+many lifting days the fixed sessions leave, and where the heaviest
+lower-body day sits relative to the hardest other session. Only lifting
+can be programmed today: offer options for the lifting around the other
+activities, never a plan for the activities themselves, and say so.
 
 Write the decision and the reasoning behind it into `profile.md` in §7.
 This is the record that later lets `review` know why the program looks
@@ -174,6 +222,10 @@ Route to a specialist by this rule:
 2. Goal is strength, or there's a competition date → `program-strength`.
 3. Goal is size, shape, or a specific muscle focus → `program-hypertrophy`.
 4. Goal is both strength and size → `program-powerbuilding`.
+5. Goal is performance in a sport, and training age is a year or more →
+   `program-strength`, told that lifting supports the sport: volume low
+   enough to recover around the fixed sessions, and no meet peaking unless
+   item 15 names a lifting competition. `[expert default, unverified]`
 
 Say out loud, before calling anyone, which specialist you're about to call
 and why ("this sounds like a strength goal with a meet in mind, so I'll
@@ -202,6 +254,18 @@ returns a report — so the call must contain everything it needs:
   athlete: sex, age over 40, training in a caloric deficit, limited
   equipment, cardio in the weekly schedule, returning after a break. Pass
   only the ones that apply; don't pad the call with modifiers that don't.
+  Running or cycling named in item 8 makes "cardio in the weekly
+  schedule" apply.
+- When item 8 named activities: the answers to items 8–10 and 13 verbatim,
+  and for each activity the weekly hours (sessions × length, as the
+  athlete said them — arithmetic only, never a guess) and how hard it is.
+  Mark running and cycling as leg-dominant and classify nothing else.
+  Tell the specialist to apply its "Cardio in the schedule" rules to hard
+  sparring and other hard sessions too — the same-day gap and protecting
+  the heaviest lower-body day — and that this is `[expert default,
+  unverified]`, since the sources behind those rules are about endurance
+  cardio and none covers grappling. The specialist writes lifting
+  sessions only; the other activities are fixed anchors it plans around.
 - One explicit task, in one phrase: design this athlete's initial program
   for the chosen methodology and write it to `athletes/<id>/program.md`.
 
@@ -243,7 +307,16 @@ answers from §3. Include the methodology decision and
 its reasoning from §4 — this file is the one place that record is meant
 to live long-term, independent of `program.md`'s changelog.
 
-Close it with the first line of the `## Checked` section (`## Проверено`
+When item 8 named activities, also write `athletes/<id>/sports.md` from
+`${CLAUDE_PLUGIN_ROOT}/templates/en/sports.md` — this file has no Russian
+twin: its headings stay in English and every answer in it is written as the
+athlete said it, in their language. Fill one entry per activity from item
+10, the priority from item 9, and the fixed sessions and blackout days from
+item 13. Item 14 goes to `profile.md`'s `## Schedule` and item 15 to its
+`## Goal`, as before; `sports.md` does not repeat them. It closes with the
+same dated `## Checked` line as the profile, for the same reason.
+
+Close `profile.md` with the first line of the `## Checked` section (`## Проверено`
 in the Russian template), in exactly this shape: `- YYYY-MM-DD — filled in
 at setup`, with today's date. Every
 program specialist later reads this file's modifiers — injuries,
@@ -274,13 +347,19 @@ agent wrote:
   kind of on-the-spot substitution is the main session's job, not a
   specialist's.
 
-Only once both checks pass is the onboarding complete.
+- **The lifting week fits the days that are free.** When `sports.md`
+  exists, count the program's lifting sessions per week against the days
+  from item 14 that the fixed sessions leave. If they don't fit, say so
+  before finishing and offer to call the specialist again with the
+  corrected budget; never accept an overfull week silently.
+
+Only once the checks pass is the onboarding complete.
 
 ## 9. Finish
 
 List the files created (`.coach.json` if this was a full setup, `exercises.md`
-if new, `athletes/<id>/profile.md`, `athletes/<id>/program.md`, and any
-`gym.md`) — or, if the specialist call in §6 failed, list what was saved
+if new, `athletes/<id>/profile.md`, `athletes/<id>/program.md`, `sports.md`
+if written, and any `gym.md`) — or, if the specialist call in §6 failed, list what was saved
 without `program.md` and say the programme is still pending. Explain the
 daily cycle in one or two lines: `/mycoach:plan` before the gym, `/mycoach:log`
 after. If the athlete mentioned any prior training history (a paper log,
@@ -302,7 +381,7 @@ the README's advice is a *private* repository.
 ## Rules that apply throughout
 
 - **Never overwrite an existing athlete's files without explicit
-  confirmation.** This applies to `profile.md`, `program.md`, and any
+  confirmation.** This applies to `profile.md`, `program.md`, `sports.md`, and any
   `gym.md` — ask, name the file, and wait for a yes before replacing it.
   `log/` and `reviews/` are never replaced by this skill under any
   circumstance.

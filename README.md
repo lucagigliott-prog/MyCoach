@@ -65,7 +65,8 @@ coach: Danila, Lower A, 2026-09-23 — logged:
 ## What it does
 
 - **Designs your programme with you.** A short interview — goal, training
-  age, schedule, injuries, what you like and refuse — then two or three
+  age, schedule, any other sport in your week (BJJ, running, cycling…),
+  injuries, what you like and refuse — then two or three
   methodologies with their trade-offs, and one of four specialist
   designers (beginner, strength, hypertrophy, powerbuilding) writes the
   block. Every exercise it programmes exists in your gym.
@@ -266,6 +267,7 @@ editable by hand, easy to back up and to version:
   athletes/
     danila/
       profile.md         # goal, history, injuries in your own words
+      sports.md          # other activities and fixed sessions, if you have any
       program.md         # the current block, with a changelog
       phases.md          # cut / bulk / maintain, with target rates
       log/2026-09-23.md  # one file per training day

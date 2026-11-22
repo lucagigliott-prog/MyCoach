@@ -15,6 +15,14 @@ follow [semantic versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Multi-sport intake: `/mycoach:init` now asks which other activities are
+  part of the week (BJJ, running, cycling, swimming, a team sport), which
+  one gives way last, a typical week of each, the sessions that cannot
+  move, and a date being built toward. The answers go to a new
+  `athletes/<id>/sports.md` and the lifting specialist plans around them.
+  A lifting-only answer skips all of it. The days-and-length question now
+  counts every activity.
+
 - Both READMEs open on a demo GIF in their own language: setting up with
   the coach, importing an old notebook, a session planned from it with the
   plates for each side, and a workout reported from a phone and logged.
